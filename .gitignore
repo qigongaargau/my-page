@@ -1,0 +1,25 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Local scratch / originals (only optimized WebP belongs in img/)
+*.orig
+img/originals/
+
+# Node (in case tooling sneaks in locally — repo stays dependency-free)
+node_modules/
+
+# Cloudflare local dev (wrangler), if ever used for Pages Functions
+.wrangler/
+.dev.vars
+
+# Temp files
+transfer/

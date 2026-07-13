@@ -1,13 +1,8 @@
-# Qigong Aargau – Website
+# Qigong Aargau – Website ([)](https://qigong-aargau.org/)
 
 Static website (plain HTML/CSS/minimal JS) for a Qigong practice in Canton Aargau.
 Hosted on **Cloudflare Pages** (free tier), deployed automatically from this **private GitHub repo**.
 No framework, no build step. A dynamic backend can be added later via **Pages Functions** without changing hosting or workflow.
-
-> **Account separation:** This project uses its own identities only —
-> `qigong.aargau@gmail.com` → GitHub account → Cloudflare account.
-> No SSO overlap or shared credentials with any personal/work accounts.
-> 2FA enabled on all three; credentials stored in the owner's password manager.
 
 ---
 
@@ -17,13 +12,13 @@ No framework, no build step. A dynamic backend can be added later via **Pages Fu
 |---|---|---|
 | Site | Plain HTML/CSS (+ minimal vanilla JS if needed) | No toolchain, no dependencies, nothing to update |
 | Hosting | Cloudflare Pages, free tier | Unlimited bandwidth, 500 builds/month |
-| Repo | GitHub, private | Owned by the dedicated GitHub account |
-| Domain | `.ch` via Infomaniak/Hostpoint | Cloudflare Registrar does **not** support `.ch` |
+| Repo | GitHub, private | Owned by https://github.com/qigongaargau |
+| Domain | qigong-aargau.org |
 | DNS | Cloudflare (nameservers pointed from registrar) | |
 | SSL | Automatic via Cloudflare Universal SSL | Auto-renewed |
 | Backend (later) | Cloudflare Pages Functions (`/functions`) | See [Future: dynamic backend](#future-dynamic-backend) |
 
-Primary language: **German** (`de-CH`). English planned later under `/en/`.
+Primary language: **German** (`de-CH`). English and other languages planned later under e.g. `/en/`.
 
 ---
 
@@ -59,8 +54,8 @@ No toolchain required. Edit files, then either open them directly in a browser o
 serve locally (needed for correct relative paths / redirects testing):
 
 ```bash
-git clone git@github.com:<qigong-account>/<repo>.git
-cd <repo>
+git clone git@github.com:qigongaargau/my-page.git
+cd my-page
 python -m http.server 8000     # http://localhost:8000
 ```
 
@@ -101,29 +96,30 @@ No CI configuration, tokens, or secrets in the repo — the GitHub App handles a
 3. Leave build command empty, output dir `/` → *Save and Deploy*
    → first deploy on `<project>.pages.dev`.
 4. **Custom domain**: Pages project → *Custom domains* → add
-   `qigong-aargau.ch` and `www.qigong-aargau.ch`.
+   `qigong-aargau.org` and `www.qigong-aargau.org`.
    With the zone already on Cloudflare nameservers, CNAMEs are created automatically;
    SSL certificate issues within minutes.
 5. `www` → apex redirect via `_redirects`:
 
    ```
-   https://www.qigong-aargau.ch/* https://qigong-aargau.ch/:splat 301
+   https://www.qigong-aargau.org/* https://qigong-aargau.org/:splat 301
    ```
-
-### Domain & DNS (context)
-
-- `.ch` registered at Infomaniak or Hostpoint (Cloudflare Registrar doesn't support `.ch`).
-- At the registrar, set nameservers to the two Cloudflare NS values shown when
-  adding the zone (free plan). DNS is then managed entirely in Cloudflare;
-  the registrar is only for renewal (~CHF 10–15/yr — the only running cost).
 
 ---
 
-## Content editing workflow
+## Preview password (pre-launch)
 
-**Chris maintains the site.** Owner sends changes (schedule, prices, photos)
-by e-mail/WhatsApp → commit → auto-deploy. Typical change is editing one HTML
-file and pushing; live within a minute.
+Until go-live the whole site is protected by HTTP Basic Auth via
+`functions/_middleware.js`:
+
+1. Cloudflare Pages → project → *Settings* → *Environment variables*
+   → add `SITE_PASSWORD` (Production **and** Preview), value = shared review password.
+2. Redeploy (env var changes apply to the next deployment).
+3. Visiting any page now prompts for a login — any username, the shared password.
+4. **Go-live**: delete the `SITE_PASSWORD` variable and redeploy. The middleware
+   then passes every request through unchanged; it can stay in the repo.
+
+The password lives only in Cloudflare, never in the repo.
 
 ---
 
@@ -168,11 +164,10 @@ Until then, contact is a `mailto:` link or plain listed phone/e-mail.
 
 ## Checklist before go-live
 
-- [ ] All pages in German, proofread by owner
-- [ ] Impressum + Datenschutzerklärung published and linked in footer
-- [ ] Custom domain active, SSL valid, `www` redirect works
-- [ ] Images optimized (WebP, correct dimensions)
-- [ ] Lighthouse: performance/SEO/a11y ≥ 90
-- [ ] `robots.txt` + `sitemap.xml` present
+- [y] All pages in German, proofread by owner
+- [y] Impressum + Datenschutzerklärung published and linked in footer
+- [y] Custom domain active, SSL valid, `www` redirect works
+- [y] Images optimized (WebP, correct dimensions)
+- [y] `robots.txt` + `sitemap.xml` present
 - [ ] Google Business Profile created and linked to the site
 - [ ] Owner has password-manager entries for Gmail, GitHub, Cloudflare (2FA on all)
