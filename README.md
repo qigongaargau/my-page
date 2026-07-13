@@ -1,4 +1,6 @@
-# Qigong Aargau – Website ([)](https://qigong-aargau.org/)
+# Qigong Aargau – Website
+
+**Review URL (password-protected): https://qigong-aargau.pages.dev — final domain https://qigong-aargau.org (not yet attached).**
 
 Static website (plain HTML/CSS/minimal JS) for a Qigong practice in Canton Aargau.
 Hosted on **Cloudflare Pages** (free tier), deployed automatically from this **private GitHub repo**.
@@ -88,38 +90,40 @@ Step by step:
 
 No CI configuration, tokens, or secrets in the repo — the GitHub App handles auth.
 
-### One-time setup
+### One-time setup — status (July 2026)
 
-1. Cloudflare dashboard → *Workers & Pages* → *Create* → *Pages* → *Connect to Git*.
-2. Authorize the Cloudflare GitHub App **from the dedicated GitHub account**,
-   grant access to this repo only.
-3. Leave build command empty, output dir `/` → *Save and Deploy*
-   → first deploy on `<project>.pages.dev`.
-4. **Custom domain**: Pages project → *Custom domains* → add
+1. ~~Create Pages project connected to Git~~ **Done** — project `qigong-aargau`
+   was created via the Cloudflare API (the GitHub App was already installed on
+   the `qigongaargau` account). Production deploys work; site live at
+   `qigong-aargau.pages.dev`.
+2. **Custom domain — still open**: Pages project → *Custom domains* → add
    `qigong-aargau.org` and `www.qigong-aargau.org`.
    With the zone already on Cloudflare nameservers, CNAMEs are created automatically;
-   SSL certificate issues within minutes.
-5. `www` → apex redirect via `_redirects`:
+   SSL certificate issues within minutes. Deliberately postponed until the
+   review phase is over.
+3. `www` → apex redirect via `_redirects` (already in the repo):
 
    ```
    https://www.qigong-aargau.org/* https://qigong-aargau.org/:splat 301
    ```
+
+API note: the account uses an *account-owned* API token; it verifies against
+`/accounts/{account_id}/tokens/verify`, **not** `/user/tokens/verify`.
 
 ---
 
 ## Preview password (pre-launch)
 
 Until go-live the whole site is protected by HTTP Basic Auth via
-`functions/_middleware.js`:
+`functions/_middleware.js`. **Currently active** — `SITE_PASSWORD` is set on
+Production and Preview; any username plus the shared review password unlocks
+the site.
 
-1. Cloudflare Pages → project → *Settings* → *Environment variables*
-   → add `SITE_PASSWORD` (Production **and** Preview), value = shared review password.
-2. Redeploy (env var changes apply to the next deployment).
-3. Visiting any page now prompts for a login — any username, the shared password.
-4. **Go-live**: delete the `SITE_PASSWORD` variable and redeploy. The middleware
-   then passes every request through unchanged; it can stay in the repo.
-
-The password lives only in Cloudflare, never in the repo.
+- The variable lives in Cloudflare Pages → project → *Settings* →
+  *Variables and Secrets* (changes apply to the **next** deployment).
+- **Go-live**: delete the `SITE_PASSWORD` variable and redeploy. The middleware
+  then passes every request through unchanged; it can stay in the repo.
+- The password lives only in Cloudflare, never in the repo.
 
 ---
 

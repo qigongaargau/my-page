@@ -1,12 +1,23 @@
 # CLAUDE.md
 
 Website for Qigong courses in Canton Aargau (owner: Olena Räss).
-Live at https://qigong-aargau.org — see `README.md` for the full stack, deploy flow, and legal checklist.
+Cloudflare Pages project `qigong-aargau`, live at https://qigong-aargau.pages.dev
+(custom domain qigong-aargau.org reserved but not yet attached) — see `README.md`
+for the full stack, deploy flow, and legal checklist.
+
+## Working style (important)
+
+- **Always discuss design decisions with Christian before implementing them** —
+  page structure, styling direction, tooling choices, what goes on which page,
+  security/infra approaches. Propose, get an OK, then build.
+- **No lengthy autonomous debugging.** When something doesn't work, state the
+  potential root causes and discuss them with Christian before running long
+  chains of diagnostic or corrective steps.
 
 ## What this is
 
 - **Plain static HTML/CSS** (+ minimal vanilla JS only if truly needed). No framework, no build step, no dependencies, no package.json. Keep it that way.
-- Deployed by **Cloudflare Pages** directly from this repo: push to `main` → production on qigong-aargau.org; push to any other branch → preview URL. Build command is empty; the repo root is uploaded verbatim.
+- Deployed by **Cloudflare Pages** directly from this repo: push to `main` → production on qigong-aargau.pages.dev (later qigong-aargau.org); push to any other branch → preview URL. Build command is empty; the repo root is uploaded verbatim.
 - Repo is private, owned by the dedicated GitHub account `qigongaargau`.
 
 ## Conventions
@@ -28,8 +39,9 @@ Live at https://qigong-aargau.org — see `README.md` for the full stack, deploy
 
 `functions/_middleware.js` wraps the whole site in HTTP Basic Auth **only while**
 the `SITE_PASSWORD` environment variable is set in Cloudflare Pages
-(Settings → Environment variables). Any username works; only the password is
-checked. For go-live: delete the variable and redeploy (or delete the file).
+(Settings → Variables and Secrets). Any username works; only the password is
+checked. The variable is currently **set** (review phase, as of July 2026).
+For go-live: delete the variable and redeploy (or delete the file).
 Don't put the password itself anywhere in the repo.
 
 ## Future backend
