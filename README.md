@@ -1,6 +1,6 @@
 # Qigong Aargau – Website
 
-**Review URL (password-protected): https://qigong-aargau.pages.dev — final domain https://qigong-aargau.org (not yet attached).**
+**Live at https://qigong-aargau.pages.dev — final domain https://qigong-aargau.org (not yet attached).**
 
 Static website (plain HTML/CSS/minimal JS) for a Qigong practice in Canton Aargau.
 Hosted on **Cloudflare Pages** (free tier), deployed automatically from this **private GitHub repo**.
@@ -112,18 +112,15 @@ API note: the account uses an *account-owned* API token; it verifies against
 
 ---
 
-## Preview password (pre-launch)
+## Preview password (removed at go-live, July 2026)
 
-Until go-live the whole site is protected by HTTP Basic Auth via
-`functions/_middleware.js`. **Currently active** — `SITE_PASSWORD` is set on
-Production and Preview; any username plus the shared review password unlocks
-the site.
-
-- The variable lives in Cloudflare Pages → project → *Settings* →
-  *Variables and Secrets* (changes apply to the **next** deployment).
-- **Go-live**: delete the `SITE_PASSWORD` variable and redeploy. The middleware
-  then passes every request through unchanged; it can stay in the repo.
-- The password lives only in Cloudflare, never in the repo.
+During the review phase the whole site was protected by HTTP Basic Auth via
+`functions/_middleware.js` plus a `SITE_PASSWORD` variable in Cloudflare Pages.
+The middleware file was **deleted at go-live**; the site is public. The
+now-unused `SITE_PASSWORD` variable in Cloudflare Pages (Settings → *Variables
+and Secrets*) can be deleted at any time — without the middleware it has no
+effect. To password-protect a future pre-launch phase again, restore the file
+from git history (`git log -- functions/_middleware.js`) and set the variable.
 
 ---
 

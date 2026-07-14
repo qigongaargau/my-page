@@ -35,14 +35,12 @@ for the full stack, deploy flow, and legal checklist.
 
 - `impressum.html` and `datenschutz.html` are Swiss legal requirements (revDSG) and must stay linked from every page's footer.
 
-## Preview password protection
+## Preview password protection (removed)
 
-`functions/_middleware.js` wraps the whole site in HTTP Basic Auth **only while**
-the `SITE_PASSWORD` environment variable is set in Cloudflare Pages
-(Settings → Variables and Secrets). Any username works; only the password is
-checked. The variable is currently **set** (review phase, as of July 2026).
-For go-live: delete the variable and redeploy (or delete the file).
-Don't put the password itself anywhere in the repo.
+The site went live in July 2026; the Basic-Auth middleware
+(`functions/_middleware.js`) was deleted. To protect a future pre-launch phase,
+restore it from git history and set `SITE_PASSWORD` in Cloudflare Pages
+(Settings → Variables and Secrets). Don't put the password itself in the repo.
 
 ## Future backend
 
