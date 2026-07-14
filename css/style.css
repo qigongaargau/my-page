@@ -1,10 +1,40 @@
-/* Qigong Aargau – zentrales Stylesheet (Stub, Gestaltung folgt) */
+/* Qigong Aargau – zentrales Stylesheet
+   Gestaltung: Reispapier-Grundton, Tusche-Anthrazit, Jade als Hauptakzent,
+   Siegelrot (sparsam) als zweiter Akzent. Überschriften: Cormorant Garamond
+   (selbst gehostet, variable Schrift), Fliesstext: Systemschrift. */
+
+/* ---------- Schriften (selbst gehostet, /fonts) ---------- */
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/cormorant-garamond-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/cormorant-garamond-italic-latin.woff2") format("woff2");
+}
+
+/* ---------- Farb- und Grundwerte ---------- */
 
 :root {
-  --color-text: #222;
-  --color-bg: #fff;
-  --color-accent: #4a7c59;
+  --paper: #faf7f1;
+  --paper-deep: #f2ede1;
+  --ink: #2d2a24;
+  --ink-soft: #5f594d;
+  --jade: #4a7c59;
+  --jade-deep: #3a624a;
+  --seal: #a63a2b;
+  --line: #e3dccb;
   --max-width: 60rem;
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 * {
@@ -13,50 +43,82 @@
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  line-height: 1.6;
-  color: var(--color-text);
-  background: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--paper);
 }
+
+/* ---------- Grundraster ---------- */
 
 .site-header,
 main,
 .site-footer {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 1rem;
+  padding: 1rem 1.25rem;
 }
 
-.site-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 1rem;
+main {
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
 }
 
-.site-logo {
-  font-weight: 700;
-  text-decoration: none;
-  color: var(--color-accent);
+/* ---------- Typografie ---------- */
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
 }
 
-.site-nav {
-  display: flex;
-  gap: 1rem;
+h1 {
+  font-size: clamp(2.1rem, 5vw, 2.9rem);
+  margin: 0.5rem 0 0.75rem;
 }
 
-.site-nav a {
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-.site-nav a[aria-current="page"] {
-  border-bottom: 2px solid var(--color-accent);
+h2 {
+  font-size: clamp(1.5rem, 3.5vw, 1.85rem);
+  margin: 2.25rem 0 0.5rem;
+  color: var(--jade-deep);
 }
 
 .lead {
-  font-size: 1.125rem;
-  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.4rem;
+  color: var(--ink-soft);
+  margin-top: 0;
+}
+
+a {
+  color: var(--jade-deep);
+  text-decoration-color: color-mix(in srgb, var(--jade) 45%, transparent);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--seal);
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--jade);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+strong {
+  color: var(--ink);
+}
+
+address {
+  font-style: normal;
 }
 
 img {
@@ -64,8 +126,215 @@ img {
   height: auto;
 }
 
+::selection {
+  background: color-mix(in srgb, var(--jade) 25%, var(--paper));
+}
+
+/* ---------- Kopfbereich ---------- */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.45rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-logo:hover {
+  color: var(--ink);
+}
+
+.seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 0.45rem;
+  background: var(--seal);
+  color: var(--paper);
+  font-family: "Noto Serif CJK SC", "Noto Sans CJK SC", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", serif;
+  font-size: 1.35rem;
+  line-height: 1;
+  flex: none;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin-left: auto;
+  font-size: 0.95rem;
+}
+
+.site-nav a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+}
+
+.site-nav a:hover {
+  color: var(--jade-deep);
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--ink);
+  border-bottom-color: var(--jade);
+}
+
+/* ---------- Startseite: Hero ---------- */
+
+.hero {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 2rem;
+  align-items: center;
+  padding: 1.5rem 0 1rem;
+}
+
+.hero-art {
+  width: 100%;
+  height: auto;
+  color: var(--jade);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 1.75rem;
+}
+
+.button {
+  display: inline-block;
+  background: var(--jade);
+  color: var(--paper);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 999px;
+  transition: background-color 0.15s ease;
+}
+
+.button:hover {
+  background: var(--jade-deep);
+  color: var(--paper);
+}
+
+@media (max-width: 44rem) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .hero-art {
+    max-width: 16rem;
+    margin: 0 auto;
+  }
+}
+
+/* ---------- Trennelement (Pinselstrich) ---------- */
+
+.divider {
+  display: block;
+  width: 8.5rem;
+  height: auto;
+  margin: 2.75rem auto 0.5rem;
+  color: var(--jade);
+}
+
+/* ---------- Karten (Kurse, Kontakt) ---------- */
+
+.card {
+  background: color-mix(in srgb, var(--paper-deep) 65%, var(--paper));
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  padding: 1.5rem 1.75rem;
+  margin: 1.5rem 0;
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+.card ul {
+  padding-left: 1.25rem;
+}
+
+.card li {
+  margin: 0.35rem 0;
+}
+
+/* ---------- Über mich ---------- */
+
+.bio {
+  display: grid;
+  grid-template-columns: 5fr 2fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.bio-figure {
+  margin: 0.75rem 0 0;
+}
+
+.bio-figure svg {
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+}
+
+@media (max-width: 44rem) {
+  .bio {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .bio-figure {
+    max-width: 14rem;
+  }
+}
+
+/* ---------- Fussbereich ---------- */
+
 .site-footer {
-  margin-top: 3rem;
-  border-top: 1px solid #ddd;
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+  border-top: 1px solid var(--line);
   font-size: 0.875rem;
+  color: var(--ink-soft);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  justify-content: space-between;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.site-footer a {
+  color: var(--ink-soft);
+}
+
+.site-footer a:hover {
+  color: var(--seal);
 }
